@@ -30,6 +30,7 @@ def load_data(directory):
                 names[row["name"].lower()] = {row["id"]}
             else:
                 names[row["name"].lower()].add(row["id"])
+    
 
     # Load movies
     with open(f"{directory}/movies.csv", encoding="utf-8") as f:
@@ -60,6 +61,7 @@ def main():
     # Load data from files into memory
     print("Loading data...")
     load_data(directory)
+    
     print("Data loaded.")
 
     source = person_id_for_name(input("Name: "))
