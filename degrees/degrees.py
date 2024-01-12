@@ -94,15 +94,20 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
     num_explored = 0
-
+    print(f"source is {source}")
     start = Node(state=source, parent=None, action=None)
-    frontier = StackFrontier()
+    frontier = QueueFrontier()
     frontier.add(start)
-
+    print(f"Starting State is {start.state}")
+    print(f"Target State is {target}")
+    
     explored = set()
 
+    solution = []
     while True:
             # If nothing left in frontier, then no path
+            print(frontier.empty())
+            print(solution)
             if frontier.empty():
                 raise Exception("no solution")
             
@@ -112,20 +117,21 @@ def shortest_path(source, target):
 
 
             if node.state == target:
-                actions = []
-                cells = []
+                #actions = []
+                #cells = []
                 while node.parent is not None:
-                    actions.append(node.action)
-                    cells.append(node.state)
+                    #actions.append(node.action)
+                    #cells.append(node.state)
+                    element = (node.action, node.state)
+                    print(element)
                     node = node.parent
-                actions.reverse()
-                cells.reverse()
-                solution = (actions, cells)
-                print(f"solution is {solution}")
+                    solution.append(element)
+                #actions.reverse()
+                #cells.reverse()
                 return solution
-            
-            explored.add(node.state)
 
+            explored.add(node.state)
+            print(f"hellol {neighbors_for_person(node.state)}")
             for action, state in neighbors_for_person(node.state):
                 if not frontier.contains_state(state) and state not in explored:
                     child = Node(state=state, parent=node, action=action)
@@ -171,6 +177,7 @@ def neighbors_for_person(person_id):
     for movie_id in movie_ids:
         for person_id in movies[movie_id]["stars"]:
             neighbors.add((movie_id, person_id))
+    print(neighbors)
     return neighbors
 
 
