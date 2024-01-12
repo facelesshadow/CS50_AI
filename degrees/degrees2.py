@@ -30,6 +30,7 @@ def load_data(directory):
                 names[row["name"].lower()] = {row["id"]}
             else:
                 names[row["name"].lower()].add(row["id"])
+    
 
     # Load movies
     with open(f"{directory}/movies.csv", encoding="utf-8") as f:
@@ -60,6 +61,7 @@ def main():
     # Load data from files into memory
     print("Loading data...")
     load_data(directory)
+    
     print("Data loaded.")
 
     source = person_id_for_name(input("Name: "))
@@ -91,6 +93,49 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
+    num_explored = 0
+    start = Node(state=source, parent=None, action=None)
+    frontier = QueueFrontier()
+    frontier.add(start)
+    print(f"source is {source} and target is {target}")
+    explored = []
+
+    solution = []
+    while True:
+            # If nothing left in frontier, then no path
+            if frontier.empty():
+                raise Exception("no solution")
+            
+            # Choose a node from the frontier
+            node = frontier.remove()
+            num_explored += 1
+            
+
+            if node.state == target:
+                print(f"solution is {solution}")
+                actions = []
+                cells = []
+                while node.parent is not None:
+                    actions.append(node.action)
+                    cells.append(node.state)
+                    #element = (node.action, node.state)
+                    node = node.parent
+                    #solution.append(element)
+                actions.reverse()
+                cells.reverse()
+                print(f"actions are {actions}")
+                print(f"solution before returning is {solution}")
+                return solution
+
+            explored.append(node.state)
+            neighbors_list = list(neighbors_for_person(node.state))
+            for ryoiki in neighbors_list:
+                for tenkai in ryoiki:
+                    state = tenkai[1]
+                    if not frontier.contains_state(state) and state not in explored:
+                        child = Node(state=state, parent=node, action=tenkai[0])
+                        frontier.add(child)
+
 
     
 
@@ -134,8 +179,19 @@ def neighbors_for_person(person_id):
     for movie_id in movie_ids:
         for person_id in movies[movie_id]["stars"]:
             neighbors.add((movie_id, person_id))
+
+    print(f"neighbors while returning are {type(neighbors)}")
     return neighbors
 
 
 if __name__ == "__main__":
     main()
+
+
+'''
+for action, state in neighbors_for_person(node.state):
+    if not frontier.contains_state(state) and state not in explored:
+        child = Node(state=state, parent=node, action=action)
+        frontier.add(child)
+
+'''
