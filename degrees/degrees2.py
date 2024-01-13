@@ -109,7 +109,7 @@ def shortest_path(source, target):
             # Choose a node from the frontier
             node = frontier.remove()
             num_explored += 1
-            
+
 
             if node.state == target:
                 print(f"solution is {solution}")

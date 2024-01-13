@@ -95,7 +95,7 @@ def shortest_path(source, target):
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
     frontier.add(start)
-    
+
     #Init an explored set
     explored = set()
     solution = []
@@ -104,7 +104,7 @@ def shortest_path(source, target):
     while True:
         if frontier.empty():
             raise Exception("no solution wtf bro")
-        
+
         #choose a node from the frontier
         node = frontier.remove()
 
