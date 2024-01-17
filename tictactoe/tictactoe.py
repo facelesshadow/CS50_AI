@@ -80,18 +80,25 @@ def result(board, action):
 def winner(board):
     """
     Returns the winner of the game, if there is one.
-    """
-    win = [
-        [(0,0), (0,1), (0,2)], 
-        [(1,0), (1,1), (1,2)], 
-        [(2,0), (2,1), (2,2)], 
-        [(0,0), (1,0), (2,0)], 
-        [(0,1), (1,1), (2,1)], 
-        [(0,2), (1,2), (2,2)],
-        [(0,0), (1,1), (2,2)],
-        [(0,2), (1,1), (2,0)]
+     """
+    wins = [
+        [[0,0], [0,1], [0,2]], 
+        [[1,0], [1,1], [1,2]], 
+        [[2,0], [2,1], [2,2]], 
+        [[0,0], [1,0], [2,0]], 
+        [[0,1], [1,1], [2,1]], 
+        [[0,2], [1,2], [2,2]],
+        [[0,0], [1,1], [2,2]],
+        [[0,2], [1,1], [2,0]]
         ]
-    raise NotImplementedError
+
+    signs = [X, O]
+    for player in signs:
+        for element in wins:
+            if board[element[0][0]][element[0][1]] and board[element[1][0]][element[1][1]] and board[element[2][0]][element[2][1]] == player:
+                return player
+
+    return None
 
 
 def terminal(board):
