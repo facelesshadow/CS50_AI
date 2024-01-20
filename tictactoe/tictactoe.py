@@ -40,6 +40,7 @@ def player(board):
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
+    return type - Set of tuples - {(i, j), (k, l)}
     """
     i,j = 0
     moves = Set()
@@ -137,4 +138,20 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+
+    if terminal(board):
+        return utility(board)
+
+    if player(board) == X:
+        v = float(-inf)
+        
+
+
+
+    
+
+    
+    if terminal(board):
+        return None    
+
     raise NotImplementedError
