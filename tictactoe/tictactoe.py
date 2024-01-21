@@ -30,11 +30,9 @@ def player(board):
                 count += 1
     
     if count%2 == 0:
-        return O
-    else:
         return X
-
-
+    else:
+        return O
 
 
 def actions(board):
@@ -42,11 +40,13 @@ def actions(board):
     Returns set of all possible actions (i, j) available on the board.
     return type - Set of tuples - {(i, j), (k, l)}
     """
-    i,j = 0
-    moves = Set()
-    for row in board:
-        for element in row:
-            if element == EMPTY:
+
+    moves = set()
+    i = 0
+    while i < 3:
+        j = 0
+        while j < 3:
+            if board[i][j] == EMPTY:
                 moves.add((i, j))
             j += 1
         i += 1
@@ -68,8 +68,8 @@ def result(board, action):
     """
 
     duplicate = copy.deepcopy(board)
+    print(f"action is {action}")
     current_player = player(board)
-
     if duplicate[action[0]][action[1]] == EMPTY:
         duplicate[action[0]][action[1]] = current_player
         return duplicate
@@ -96,7 +96,7 @@ def winner(board):
     signs = [X, O]
     for player in signs:
         for element in wins:
-            if board[element[0][0]][element[0][1]] and board[element[1][0]][element[1][1]] and board[element[2][0]][element[2][1]] == player:
+            if board[element[0][0]][element[0][1]] == player and board[element[1][0]][element[1][1]] == player and board[element[2][0]][element[2][1]] == player:
                 return player
 
     return None
@@ -143,15 +143,18 @@ def minimax(board):
         return utility(board)
 
     if player(board) == X:
-        v = float(-inf)
-        
-
-
-
+        v = float('-inf')
+        for action in actions(board):
+            v = max(v, minimax(result(board, action)))
+            return v
     
+    if player(board) == O:
+        v = float('inf')
+        for action in actions(board):
+            v = min(v, minimax(result(board, action)))
+            return v
 
-    
     if terminal(board):
         return None    
 
-    raise NotImplementedError
+    

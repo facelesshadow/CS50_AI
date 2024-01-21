@@ -1,5 +1,11 @@
-import copy
+from tictactoe import player
 
-boards = [[1, 2, 4], [2, 3, 4]]
-duplicate = copy.deepcopy(boards)
-print(duplicate)
+X = "X"
+O = "O"
+EMPTY = None
+
+board = [[O, EMPTY, X], [X, O, O], [X, X, O]]
+
+answer = player(board)
+
+print(f"answer is {answer}")
