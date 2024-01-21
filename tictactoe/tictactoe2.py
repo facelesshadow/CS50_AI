@@ -28,20 +28,19 @@ def player(board):
         for element in row:
             if element == X:
                 count += 1
-
+    
     if count%2 == 0:
         return X
     else:
         return O
 
-    raise NotImplementedError
-
 
 def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
-
+    return type - Set of tuples - {(i, j), (k, l)}
     """
+
     moves = set()
     i = 0
     while i < 3:
@@ -52,13 +51,21 @@ def actions(board):
             j += 1
         i += 1
     return moves
-    raise NotImplementedError
 
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
+
+    A copy of board
+    current_player = player(board)
+    on copy, at i, j, if element == EMPTY:
+        copy[i,j] = current_player
+        return copy
+    else:
+        raise Exception
     """
+
     duplicate = copy.deepcopy(board)
     current_player = player(board)
     if duplicate[action[0]][action[1]] == EMPTY:
@@ -66,19 +73,18 @@ def result(board, action):
         return duplicate
     else:
         raise ValueError
-    raise NotImplementedError
 
 
 def winner(board):
     """
     Returns the winner of the game, if there is one.
-    """
+     """
     wins = [
-        [[0,0], [0,1], [0,2]],
-        [[1,0], [1,1], [1,2]],
-        [[2,0], [2,1], [2,2]],
-        [[0,0], [1,0], [2,0]],
-        [[0,1], [1,1], [2,1]],
+        [[0,0], [0,1], [0,2]], 
+        [[1,0], [1,1], [1,2]], 
+        [[2,0], [2,1], [2,2]], 
+        [[0,0], [1,0], [2,0]], 
+        [[0,1], [1,1], [2,1]], 
         [[0,2], [1,2], [2,2]],
         [[0,0], [1,1], [2,2]],
         [[0,2], [1,1], [2,0]]
@@ -91,27 +97,27 @@ def winner(board):
                 return player
 
     return None
-    raise NotImplementedError
 
 
 def terminal(board):
     """
-    Returns True if game is over, False otherwise.
+    Returns True if game is over, False if game is not over.
     """
+
     if winner(board) == None:
         for row in board:
             for element in row:
                 if element == EMPTY:
                     return False
-    
-    return True
-
+    else:
+        return True
 
 
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
+
     answer = winner(board)
     if answer == X:
         return 1
@@ -119,13 +125,14 @@ def utility(board):
         return -1
     else:
         return 0
-    raise NotImplementedError
+
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+
     if terminal(board):
         return utility(board)
 
@@ -135,12 +142,15 @@ def minimax(board):
         for action in actions(board):
             v = max(v, minimax(result(board, action)))
             return v
-
+    
     if player(board) == O:
         v = float('inf')
         print(actions(board))
         for action in actions(board):
             v = min(v, minimax(result(board, action)))
             return v
+
+    if terminal(board):
+        return None    
 
     
