@@ -26,9 +26,8 @@ def player(board):
     count = 0
     for row in board:
         for element in row:
-            if element == X:
+            if element != EMPTY:
                 count += 1
-
     if count%2 == 0:
         return X
     else:
@@ -126,21 +125,42 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    if terminal(board):
-        return utility(board)
 
     if player(board) == X:
         v = float('-inf')
-        print(actions(board))
+        selected_action = None
         for action in actions(board):
-            v = max(v, minimax(result(board, action)))
-            return v
+            minValueResult = minValue(result(board, action))
+            if minValueResult > v:
+                v = minValueResult
+                selected_action = action
+
 
     if player(board) == O:
         v = float('inf')
-        print(actions(board))
+        selected_action = None
         for action in actions(board):
-            v = min(v, minimax(result(board, action)))
-            return v
+            maxValueResult = maxValue(result(board, action))
+            if maxValueResult < v:
+                v = maxValueResult
+                selected_action = action
+    return selected_action
 
+
+def maxValue(board):
     
+    if terminal(board):
+        return utility(board)
+    v = float('-inf')
+    for action in actions(board):
+        v = max(v, minValue(result(board, action)))
+    return v
+
+
+def minValue(board):
+    if terminal(board):
+        return utility(board)
+    v = float('inf')
+    for action in actions(board):
+        v = min(v, maxValue(result(board, action)))
+    return v

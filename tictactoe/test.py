@@ -1,12 +1,12 @@
-from tictactoe import minimax
+from tictactoe import player
 
 X = "X"
 O = "O"
 EMPTY = None
 
-board = [[X, EMPTY, EMPTY],
+board = [[X, O, X],
         [EMPTY, EMPTY, EMPTY],
         [EMPTY, EMPTY, EMPTY]]
-answer = minimax(board)
+answer = player(board)
 
 print(f"answer is {answer}")
