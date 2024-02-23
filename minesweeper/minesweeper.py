@@ -182,7 +182,7 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
 
-                A cell and its neighbouring number of mines given, in cell and count respectively, 
+                A cell and its neighbouring number of mines given, in cell and count respectively,
                 so the sentence would go something like this - 
 
                 Initialise a new sentence, with count as the count, and the set of cells being nearby cells.
@@ -204,12 +204,50 @@ class MinesweeperAI():
                         - For each element1 in the KB list:
                             For each element2 in the KB list:
                                 Do your shite....
-                    
-                    
-
-
         """
-        raise NotImplementedError
+        # Mark the cell as a move that has been made.
+        self.moves_made.add(cell)
+        
+        # Mark the cell as safe
+        self.safes.add(cell)
+        #Also make sure that this element is removed from every sentence in the knowledge base
+    
+        # add the new sentence in the knowledge base    
+            1. get all the nearby cells. 
+            2. eliminate all the nearby cells which are already in safe or in mines or already made moves.
+                while eliminating already known mines, also update the count(number of nearby mines...)
+           3. then form a new sentence, with count as number of mines, and the sentence. 
+
+        new_cells = set()
+
+        # Loop over all cells within one row and column
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+
+                # Ignore the cell itself
+                if (i, j) == cell:
+                    continue
+
+                    if 0 <= i < self.height and 0 <= j < self.width:
+                        if (i, j) in self.mines()
+                            continue
+                        elif (i, j) in self.safes():
+                            continue
+                        else:
+                            new_cells.add((i, j))
+
+        
+
+                    
+
+
+
+
+
+            
+
+
+        raise NotImplementedError   
 
     def make_safe_move(self):
         """
