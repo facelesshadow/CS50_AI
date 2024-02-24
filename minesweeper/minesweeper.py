@@ -211,12 +211,19 @@ class MinesweeperAI():
         # Mark the cell as safe
         self.safes.add(cell)
         #Also make sure that this element is removed from every sentence in the knowledge base
+            #Need to make a copy of the set as an element can not be removed from a set if the set is being iterated upon
+        for element in self.knowledge:
+            if cell in element.cells:
+                element.cells.remove(cell)
+
     
         # add the new sentence in the knowledge base    
+        '''
             1. get all the nearby cells. 
             2. eliminate all the nearby cells which are already in safe or in mines or already made moves.
                 while eliminating already known mines, also update the count(number of nearby mines...)
            3. then form a new sentence, with count as number of mines, and the sentence. 
+        '''
 
         new_cells = set()
 
@@ -229,24 +236,50 @@ class MinesweeperAI():
                     continue
 
                     if 0 <= i < self.height and 0 <= j < self.width:
+                        # check if the neighbouring cell is a known mine
                         if (i, j) in self.mines()
+                            # Lower the mine count 
+                            count -= 1
                             continue
+                        #check if the neighbouring cell is a known safe cell (includes the cells which are already a made move)
                         elif (i, j) in self.safes():
                             continue
                         else:
                             new_cells.add((i, j))
 
-        
+        new_sentence = Sentence()
+        new_sentence.cells = new_cells
+        new_sentence.count = count
 
-                    
+        self.knowledge.append(new_sentence)
 
+ '''
+ Knowledge base - list of sentences
+ sentences - object with a (set of cells) + (a count)
+ for each sentence1 in element in the list called knowledge base,
+ for each sentence2 in element in list called knowledge base,
+    if sentence1 intersection sentence2 is not 0:
+        then subset wala set subtract kro, count new karo, and then new sentence add karo...
+ '''
 
-
-
-
+        for element1 in self.knowlege:
+            for element2 in self.knowledge:
+                if element1.cells = element2.cells:
+                    continue
+                elif element1.cells.issubset(element2.cells):
+                    new_cells = element1.cells.difference(element2.cells)
+                    new_count = element1.count - element2.count
+                    new_sentence = Sentence()
+                    new_sentence.cells = new_cells
+                    new_sentence.count = new_count
+                elif element2.cells.issubset(element1.cells):
+                    new_cells = element2.cells.difference(element1.cells)
+                    new_count = element2.count - element1.count
+                    new_sentence = Sentence()
+                    new_sentence.cells = new_cells
+                    new_sentence.count = new_count
+                
             
-
-
         raise NotImplementedError   
 
     def make_safe_move(self):
