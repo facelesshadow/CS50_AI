@@ -164,8 +164,8 @@ class MinesweeperAI():
         to mark that cell as safe as well.
         """
         self.safes.add(cell)
-        for sentence in self.knowledge:
-            sentence.mark_safe(cell)
+        for element in self.knowledge:
+            element.mark_safe(cell)
 
     def add_knowledge(self, cell, count):
         """
@@ -291,6 +291,11 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
+        for element in self.safes:
+            if element not in self.moves_made:
+                return element
+
+
         raise NotImplementedError
 
     def make_random_move(self):
@@ -299,5 +304,19 @@ class MinesweeperAI():
         Should choose randomly among cells that:
             1) have not already been chosen, and
             2) are not known to be mines
+
+            1) Cells that have not already been choosen - not in self.moves_made
+            2) not known to be mine - not in self.mines
+
+            I need to figure out how to get the list of all such elements... 
+            Maybe done by - 
+            1. Getting a list of all elements.
+            2. Eliminate all elements which are 
+                1. Moves_made
+                2. known_mines
+            3. Select a random element out of the list.
+            I can do one thing - get the cells from the knowledge base, and then select any one at random from the damn sets. 
         """
+        
+
         raise NotImplementedError
