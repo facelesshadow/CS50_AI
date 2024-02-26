@@ -315,7 +315,8 @@ class MinesweeperAI():
                 1. Moves_made
                 2. known_mines
             3. Select a random element out of the list.
-            I can do one thing - get the cells from the knowledge base, and then select any one at random from the damn sets. 
+            I can do one thing - get the cells from the knowledge base, and then select any one at random from the damn sets.
+            Wait wait wait, To get the cells, I do have the height and the width of the board, I can just create all the cells by myself wtf -_-
         """
         
 
