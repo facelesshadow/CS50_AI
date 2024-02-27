@@ -318,6 +318,11 @@ class MinesweeperAI():
             I can do one thing - get the cells from the knowledge base, and then select any one at random from the damn sets.
             Wait wait wait, To get the cells, I do have the height and the width of the board, I can just create all the cells by myself wtf -_-
         """
+        for i in range(self.height):
+            row = []
+            for j in range(self.width):
+                row.append(False)
+            self.board.append(row)
         
 
         raise NotImplementedError
