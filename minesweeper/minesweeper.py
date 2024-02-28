@@ -263,6 +263,10 @@ class MinesweeperAI():
         then subset wala set subtract kro, count new karo, and then new sentence add karo...
  '''
 
+
+        # ALSO
+        # Everytime the knowledge base is changes, then it means that there is a possibility of new inferences
+        # So each time KB is changes, the inference algo should repeat over it.
         for element1 in self.knowlege:
             for element2 in self.knowledge:
                 if element1.cells = element2.cells:
@@ -305,9 +309,14 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
+
+        # WRONG
+        # Should also consider the case that self.safes is empty
         for element in self.safes:
             if element not in self.moves_made:
                 return element
+            else:
+                return None
 
 
         raise NotImplementedError
