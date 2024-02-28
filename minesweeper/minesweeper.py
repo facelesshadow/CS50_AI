@@ -105,6 +105,7 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
+
         raise NotImplementedError
 
     def known_safes(self):
@@ -278,7 +279,20 @@ class MinesweeperAI():
                     new_sentence = Sentence()
                     new_sentence.cells = new_cells
                     new_sentence.count = new_count
+
+        # To infer that a given cell is mine
+        for element1 in self.knowledge:
+            # if count = no of cells, add all the cells to known mines. 
+            if len(element1.cells) == element1.count:
+                for element2 in element1.cells:
+                    self.mines.append(element2)
+
+            if element1.count == 0:
+                for element2 in element1.cells:
+                    self.safes.append(element2)
+
                 
+        # to infer that a given set of cells is safe
             
         raise NotImplementedError   
 
