@@ -237,12 +237,12 @@ class MinesweeperAI():
 
                     if 0 <= i < self.height and 0 <= j < self.width:
                         # check if the neighbouring cell is a known mine
-                        if (i, j) in self.mines()
+                        if (i, j) in self.mines
                             # Lower the mine count 
                             count -= 1
                             continue
                         #check if the neighbouring cell is a known safe cell (includes the cells which are already a made move)
-                        elif (i, j) in self.safes():
+                        elif (i, j) in self.safes:
                             continue
                         else:
                             new_cells.add((i, j))
@@ -319,10 +319,17 @@ class MinesweeperAI():
             Wait wait wait, To get the cells, I do have the height and the width of the board, I can just create all the cells by myself wtf -_-
         """
         for i in range(self.height):
-            row = []
+            clear_cells = []
             for j in range(self.width):
-                row.append(False)
-            self.board.append(row)
+                if (i, j) in self.moves_made:
+                    continue
+                elif (i, j) in self.mines:
+                    continue
+                else:
+                    clear_cells.append(i, j)
+                
+                return random.choice(clear_cells)
         
+
 
         raise NotImplementedError
