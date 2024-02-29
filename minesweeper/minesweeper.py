@@ -312,11 +312,15 @@ class MinesweeperAI():
 
         # WRONG
         # Should also consider the case that self.safes is empty
-        for element in self.safes:
-            if element not in self.moves_made:
-                return element
-            else:
-                return None
+
+        if not self.safes:
+            return None
+        else:  
+            for element in self.safes:
+                if element not in self.moves_made:
+                    return element
+                else:
+                    return None
 
 
         raise NotImplementedError
