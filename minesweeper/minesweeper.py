@@ -105,7 +105,9 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be mines.
         """
-
+        # We have to return none most probably if we know none of the cells to be mines for sure, and
+        # else if we know that all of the cells are mines, then we return all of the cells...
+        
         raise NotImplementedError
 
     def known_safes(self):
@@ -312,6 +314,7 @@ class MinesweeperAI():
 
         # WRONG
         # Should also consider the case that self.safes is empty
+        # DONE
 
         if not self.safes:
             return None
