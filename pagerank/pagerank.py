@@ -11,6 +11,7 @@ def main():
     if len(sys.argv) != 2:
         sys.exit("Usage: python pagerank.py corpus")
     corpus = crawl(sys.argv[1])
+    # Dictionary in which keys - Pages and value - Set of pages to which that page links to.
     ranks = sample_pagerank(corpus, DAMPING, SAMPLES)
     print(f"PageRank Results from Sampling (n = {SAMPLES})")
     for page in sorted(ranks):
@@ -57,6 +58,27 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
+    # Corpus = Dictionary . Page - String on which we are currently . damping_factor - float
+    # return a dict with all pages and their corresponding probability
+    p_corpus = corpus.copy()
+    random_float = random.uniform(0, 1)
+    total_pages = len(corpus)
+    total_i = len(corpus[page])
+    i_list = list(corpus[page])
+
+    for element in p_corpus:
+        if not i_list:
+            p_corpus[element] = float(1 / total_pages)
+        else:
+            p_corpus[element] = float((1 - damping_factor)/total_pages)
+        
+            if element in i_list:
+                p_corpus[element] += float(damping_factor/total_i)
+    # Add (1-d)/ length probability to all the pages probab
+    # add d/n(i) probability to all pages probab...9
+
+    # with damping_factor, choose 
+    return p_corpus
     raise NotImplementedError
 
 
