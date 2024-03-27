@@ -61,19 +61,18 @@ def transition_model(corpus, page, damping_factor):
     # Corpus = Dictionary . Page - String on which we are currently . damping_factor - float
     # return a dict with all pages and their corresponding probability
     p_corpus = corpus.copy()
-    random_float = random.uniform(0, 1)
     total_pages = len(corpus)
     total_i = len(corpus[page])
     i_list = list(corpus[page])
 
     for element in p_corpus:
         if not i_list:
-            p_corpus[element] = float(1 / total_pages)
+            p_corpus[element] = (1 / total_pages)
         else:
-            p_corpus[element] = float((1 - damping_factor)/total_pages)
+            p_corpus[element] = (1 - damping_factor)/total_pages
         
             if element in i_list:
-                p_corpus[element] += float(damping_factor/total_i)
+                p_corpus[element] += (damping_factor/total_i)
     # Add (1-d)/ length probability to all the pages probab
     # add d/n(i) probability to all pages probab...9
 
