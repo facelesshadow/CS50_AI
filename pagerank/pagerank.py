@@ -90,6 +90,15 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+    '''
+    run a loop n times, 
+    and for the first iteration, choose a random page from corpus.
+    put that page into the transition model, then get the new transition model
+    put those probabilities, and choose a new page depending on the probabilities,,
+    if page x, then add 1 to the new dictionary of samples
+    keep doing it and then divide all of it by n at the end of the loop....
+    return the new sample dict to the mf....
+    '''
     raise NotImplementedError
 
 
