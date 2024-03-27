@@ -99,6 +99,20 @@ def sample_pagerank(corpus, damping_factor, n):
     keep doing it and then divide all of it by n at the end of the loop....
     return the new sample dict to the mf....
     '''
+    sample_corpus = corpus.copy()
+    for element in sample_corpus:
+        sample_corpus[element] = 0
+    
+    first_random = random.choice(list(corpus.keys()))
+    sample_corpus[first_random] = 1
+    sample_state = transition_model(corpus, first_random, damping_factor)
+
+    for i in range(n):
+        number = random.uniform(0, 1)
+        
+
+    
+
     raise NotImplementedError
 
 
