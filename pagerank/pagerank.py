@@ -160,15 +160,20 @@ def iterate_pagerank(corpus, damping_factor):
 
     for element in sample_corpus:
         sample_corpus[element] = (1-damping_factor)/len(sample_corpus)
-        for element2 in corpus:
-            if element in corpus[element]:
-        
-        page = random.choice(list(sample_corpus.keys()))
 
+        for i in i_dict[element]:
+            if len(corpus[i]):
+                new_probability = damping_factor*sample_corpus[i]/len(corpus[i])
+            else:
+                new_probability = damping_factor*sample_corpus[i]/len(corpus)
+            
+            if new_probability > 0.001:
+                sample_corpus[element] += new_probability
+            else:
+                continue
+
+    return sample_corpus
     # I think at this point, I just need to implement the damn formula... 
-
-    
-
 
     raise NotImplementedError
 
