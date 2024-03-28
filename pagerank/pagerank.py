@@ -107,12 +107,31 @@ def sample_pagerank(corpus, damping_factor, n):
     sample_corpus[first_random] = 1
     sample_state = transition_model(corpus, first_random, damping_factor)
 
-    for i in range(n):
-        number = random.uniform(0, 1)
-        
+    for i in range(n-1):
+        '''
+        chosen_webpage = random.choices(
+        list(webpage_probabilities.keys()), 
+        weights=list(webpage_probabilities.values()), 
+        k=1
+        )[0]
 
+        '''
+        choosen_page = random.choices(
+            list(sample_state.keys()),
+            weights=list(sample_state.values()),
+            k=1
+        )[0]
+
+        sample_corpus[choosen_page] += 1
+        sample_state = transition_model(corpus, choosen_page, damping_factor)
+
+    for element in sample_corpus:
+        sample_corpus[element] = sample_corpus[element] / n
+
+    return sample_corpus
     
 
+    
     raise NotImplementedError
 
 
