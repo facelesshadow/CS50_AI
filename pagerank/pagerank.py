@@ -128,10 +128,7 @@ def sample_pagerank(corpus, damping_factor, n):
     for element in sample_corpus:
         sample_corpus[element] = sample_corpus[element] / n
 
-    return sample_corpus
-    
-
-    
+    return sample_corpus    
     raise NotImplementedError
 
 
@@ -144,6 +141,35 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+    sample_corpus = corpus.copy()
+    for element in sample_corpus:
+        sample_corpus[element] = 1/len(sample_corpus)
+
+    # first_page = random.choice(list(sample_corpus,keys()))
+    i_dict = corpus.copy()
+    for element in corpus:
+        i_dict[element] = []
+        for element2 in corpus:
+            if element in corpus[element2]:
+                i_dict[element].append(element2)
+
+            if not corpus[element2]:
+                i_dict[element].append(element2)
+
+
+
+    for element in sample_corpus:
+        sample_corpus[element] = (1-damping_factor)/len(sample_corpus)
+        for element2 in corpus:
+            if element in corpus[element]:
+        
+        page = random.choice(list(sample_corpus.keys()))
+
+    # I think at this point, I just need to implement the damn formula... 
+
+    
+
+
     raise NotImplementedError
 
 
