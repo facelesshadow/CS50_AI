@@ -1,4 +1,4 @@
-from pagerank import *
+from pagerank2 import *
 
 
 
