@@ -165,7 +165,7 @@ def iterate_pagerank(corpus, damping_factor):
             if len(corpus[i]):
                 new_probability = damping_factor*sample_corpus[i]/len(corpus[i])
             else:
-                new_probability = damping_factor*sample_corpus[i]/len(corpus)
+                new_probability = 1/len(corpus)
             
             if new_probability > 0.001:
                 sample_corpus[element] += new_probability
