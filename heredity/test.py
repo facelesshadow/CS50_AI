@@ -7,9 +7,9 @@ people = {
   'Lily': {'name': 'Lily', 'mother': None, 'father': None, 'trait': False}
 }
 
-one_genes = {"Harry"}
-two_genes = {"James"}
-have_trait = {"James"}
+one_genes = {}
+two_genes = {}
+have_trait = {}
 
 
 

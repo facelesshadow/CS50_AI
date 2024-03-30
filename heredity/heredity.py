@@ -141,7 +141,7 @@ def joint_probability(people, one_gene, two_genes, have_trait):
     """
 
     """
-    Joint probability is basically AND. AND of probabs is to be calculated. 
+    Joint probability is basically AND. AND of probabs is to be calculated.
     """
     no_genes = []
     no_trait = []
@@ -156,24 +156,16 @@ def joint_probability(people, one_gene, two_genes, have_trait):
 
     for person in people:
 
-        # one gene mfs
         if people[person]["name"] in one_gene:
-            
             if people[person]["father"] == None and people[person]["mother"] == None:
-                # if no father and mother mentioned
-                
-                gene_prob = PROB["gene"][1]
-                # if no parents, then the probab of having one gene is ...
-            
+                gene_prob = PROBS["gene"][1]            
             else:
-            #one gene probab if father and mother
-
                 father = people[person]["father"]
                 mother = people[person]["mother"]
 
                 # if father = 0 and mother = 0
                 if father in no_genes and mother in no_genes:
-                    gene_prob = PROBS["gene"][1]
+                    gene_prob = (1-PROBS["mutation"])*(PROBS["mutation"]) + (1-PROBS["mutation"])*(PROBS["mutation"])
                 
                 elif ((father in one_gene or father in two_genes) and mother in no_genes) or ((mother in one_gene or mother in two_genes) and father in no_genes):
                 # if one parent has one or two genes, and other has 0
@@ -181,7 +173,6 @@ def joint_probability(people, one_gene, two_genes, have_trait):
 
                 elif (father in one_gene or father in two_genes) and (mother in one_gene or mother in two_genes):
                     gene_prob = PROBS["mutation"]*(1-PROBS["mutation"]) + PROBS["mutation"]*(1-PROBS["mutation"])
-
             
             if people[person]["name"] in have_trait:
                 person_prob = gene_prob * PROBS["trait"][1][True]
@@ -189,25 +180,22 @@ def joint_probability(people, one_gene, two_genes, have_trait):
             else:
                 person_prob = gene_prob * PROBS["trait"][1][False]
 
-
-
         # two gene mfs
         elif people[person]["name"] in two_genes:
 
             if people[person]["father"] == None and people[person]["mother"] == None:
                 gene_prob = PROBS["gene"][2]
 
-
             else: 
                 father = people[person]["father"]
                 mother = people[person]["mother"]
 
                 if father in no_genes and mother in no_genes:
-                    gene_prob  = PROBS["gene"][2]
+                    gene_prob  = PROB["mutation"]*PROB["mutation"]
 
                 elif ((father in one_gene or father in two_genes) and mother in no_genes) or ((mother in one_gene or mother in two_genes) and father in no_genes):
                 # if one parent has 0 and one parent has 1 or two
-                    gene_prob = PROBS["mutation"]*(1-PROBS["mutation"]) 
+                    gene_prob = PROB["mutation"]*(1-PROBS["mutation"]) 
 
                 elif (father in one_gene or father in two_genes) and (mother in one_gene or mother in two_genes):
                     gene_prob = (1-PROB["mutation"])*(1-PROB["mutation"])
@@ -220,28 +208,23 @@ def joint_probability(people, one_gene, two_genes, have_trait):
 
 
         # 0 gene mfs
-        elif people[person]["name"] in no_genes:
+        elif people[person]["name"] in no_genes:        
         
-
             if people[person]["father"] == None and people[person]["mother"] == None:
             # No parents
                 gene_prob = PROBS["gene"][0]
 
             else:
-
                 father = people[person]["father"]
                 mother = people[person]["mother"]
-
                 if father in no_genes and mother in no_genes:
-                    gene_prob  = PROBS["gene"][2]
-                
+                    gene_prob  = (1-PROBS["mutation"])*(1-PROBS["mutation"])
                 elif ((father in one_gene or father in two_genes) and mother in no_genes) or ((mother in one_gene or mother in two_genes) and father in no_genes):
                 # one with 1 or 2 genes, other with 0
                     gene_prob = PROBS["mutation"]*(1-PROBS["mutation"]) 
 
                 elif (father in one_gene or father in two_genes) and (mother in one_gene or mother in two_genes):
-                    gene_prob = 1-PROB["mutation"]*PROB["mutation"]
-
+                    gene_prob = (1-PROB["mutation"])*(1-PROB["mutation"])
 
             if people[person]["name"] in have_trait:
                 person_prob = gene_prob * PROBS["trait"][0][True]
