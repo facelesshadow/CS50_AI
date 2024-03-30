@@ -12,7 +12,9 @@ two_genes = {"James"}
 have_trait = {"James"}
 
 
-for person in people:
-    print(person["name"])
 
-# answer = joint_probability(people, one_genes, two_genes, have_trait)
+
+
+answer = joint_probability(people, one_genes, two_genes, have_trait)
+
+print(answer)
