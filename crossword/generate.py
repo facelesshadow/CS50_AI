@@ -135,12 +135,23 @@ class CrosswordCreator():
         conflict is when the overlaps places have different letters.
         remove values from x. 
         return true if a revision was made...
+        self.domains - a dictionary which maps all the variables to set of its possible words
         """
         revision = False
-        
+        if not self.crossword.overlaps(x, y):
+            return revision
+        else:
+            i, j = self.crossword.overlaps(x, y)
+            # now iterate, for each value of y, on each value of x. Do this through self.domain. Remove any value with inconsistency from x's value...
+            for y_value in self.domains[y]:
+                temp = self.domains[x]
+                for x_value in temp:
+                    if x_value[i] != y_value[j]:
+                        self.domains[x].remove(x_value)
+                        revision = True
+            
+        return revision
 
-
-        raise NotImplementedError
 
     def ac3(self, arcs=None):
         """
