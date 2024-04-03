@@ -99,7 +99,26 @@ class CrosswordCreator():
         (Remove any values that are inconsistent with a variable's unary
          constraints; in this case, the length of the word.)
         """
-        raise NotImplementedError
+
+        """
+        PseudoCode for node consistency - 
+            for each key in self.domains:
+                get the length of that variable...
+                remove any values which has letters more or less than the length of that variable...
+                use self.domains[v].remove(x) to remove a value x from a variable v's domain.
+
+                crossword.variables - set of all Variables in the puzzle. Each is a Variable object...
+                so. self.crossword.variables is a set, for each x in the set, x.length is the length of that variable
+                now all the values are in self.domains - a dictionary which maps all the variables to set of its possible words...
+        """
+        for variable in self.crossword.variables:
+            var_len = variable.length
+            #now iterate over the whole dictionary of self.domains
+            temp = self.domains[variable]
+            for element in temp:
+                if len(element) != var_len:
+                    self.domains[variable].remove(element)
+
 
     def revise(self, x, y):
         """
@@ -110,6 +129,17 @@ class CrosswordCreator():
         Return True if a revision was made to the domain of `x`; return
         False if no revision was made.
         """
+        """
+        both x and y are variable objects...
+        Arc consistent means - every value in x, has a combination with value in y, which does not cause a conflict
+        conflict is when the overlaps places have different letters.
+        remove values from x. 
+        return true if a revision was made...
+        """
+        revision = False
+        
+
+
         raise NotImplementedError
 
     def ac3(self, arcs=None):
