@@ -162,20 +162,77 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
+        """
+        queue = all arcs in the damn problem... how to get all the arcs?
+        for each variable in self.crossword.variable:
+             
+        """
+        if arcs == None:
+            arcs = all_arcs()
+        
+        temp = arcs
+        while arcs:
+            for element in temp:
+                x, y = arcs[element]
+                arcs.remove(element)
+                if revise(x, y):
+                    if len(self.domains[x]) == 0:
+                        return False
+                    for z in (self.crossword.neighbors(x) - {y}):
+                        arcs.add((z, x))
+
+        return True
+
+
         raise NotImplementedError
+
+
+    def all_arcs(self):
+        # returns a list of all arcs... each element being a tuple (x,y) where x and y are nodes...
+        arcs = []
+        for x in self.crossword.varible:
+            for y in self.crossword.neighbors(x):
+                arcs.append(x, y)
+
+        arcs = set(arcs)
+        arcs = list(arcs)
+
+        arcs = temp
+        for element in temp:
+            a = temp[element][0]
+            b = temp[element][1]
+            for element2 in temp:
+                if temp[element2] == (b, a):
+                    arcs.remove(element2)
+
+        return arcs
 
     def assignment_complete(self, assignment):
         """
         Return True if `assignment` is complete (i.e., assigns a value to each
         crossword variable); return False otherwise.
         """
-        raise NotImplementedError
+
+        varible_list = list(self.crossword.variable)
+        for element in variable_list:
+            # not all the variables be present either wtf...
+            if element not in assignment:
+                return False
+
+            # not all the variables present, may be mapped to something
+            if not assignment[element]:
+                return False
+            
+        
+        return True
+        
 
     def consistent(self, assignment):
         """
         Return True if `assignment` is consistent (i.e., words fit in crossword
         puzzle without conflicting characters); return False otherwise.
         """
+        
         raise NotImplementedError
 
     def order_domain_values(self, var, assignment):
