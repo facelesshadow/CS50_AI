@@ -170,8 +170,8 @@ class CrosswordCreator():
         if arcs == None:
             arcs = all_arcs()
         
-        temp = arcs
         while arcs:
+            temp = arcs
             for element in temp:
                 x, y = arcs[element]
                 arcs.remove(element)
@@ -232,7 +232,7 @@ class CrosswordCreator():
         Return True if `assignment` is consistent (i.e., words fit in crossword
         puzzle without conflicting characters); return False otherwise.
         """
-        
+
         raise NotImplementedError
 
     def order_domain_values(self, var, assignment):
