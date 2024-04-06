@@ -271,6 +271,7 @@ class CrosswordCreator():
         degree. If there is a tie, any of the tied variables are acceptable
         return values.
         """
+        
         raise NotImplementedError
 
     def backtrack(self, assignment):
