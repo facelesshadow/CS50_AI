@@ -138,7 +138,7 @@ class CrosswordCreator():
         self.domains - a dictionary which maps all the variables to set of its possible words
         """
         revision = False
-        if not self.crossword.overlaps(x, y):
+        if not self.crossword.overlaps[x, y]:
             return revision
         else:
             i, j = self.crossword.overlaps(x, y)
@@ -225,7 +225,7 @@ class CrosswordCreator():
             
         
         return True
-        
+
 
     def consistent(self, assignment):
         """
@@ -242,7 +242,26 @@ class CrosswordCreator():
         The first value in the list, for example, should be the one
         that rules out the fewest values among the neighbors of `var`.
         """
-        raise NotImplementedError
+
+        h_dict = {}
+        values = list(self.domains[var])
+    
+        for value in values:
+            h_dict[value] = 0
+    
+
+        for neighbor in list(self.crossword.neighbors(var)):
+            i,j = self.crossword.overlaps[var, neighbor]
+            for element in list(self.domains[neighbor]):
+                for element2 in h_dict:
+                    if element2[i] = element[j]:
+                        h_dict[element2] += 1
+        
+        # now sort
+        sorted_dict = dict(sorted(h_dict.items(), key=lambda item: item[1], reverse))
+
+        return sorted_dict.keys()
+        
 
     def select_unassigned_variable(self, assignment):
         """
