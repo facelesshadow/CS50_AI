@@ -232,8 +232,32 @@ class CrosswordCreator():
         Return True if `assignment` is consistent (i.e., words fit in crossword
         puzzle without conflicting characters); return False otherwise.
         """
+        used_variables = []
 
-        raise NotImplementedError
+        for var_x in assignment:
+            val_x = assignment[var_x]
+
+            # If the assigned word is already used, not consistent:
+            if val_x in used_variables:
+                return False
+            used_variables.append(val_x)
+
+            # Check if variable is assigned its length is correct
+            if len(val_x) != var_x.length:
+                return False
+
+            # Check if there are conflicts between neighboring variables:
+            for var_y in self.crossword.neighbors(var_x):
+                if var_y in assignment:
+                    val_y = assignment[var_y]
+
+                    # Check if neighbor variable is assigned and satisfies constraints
+                    if not self.overlap_satisfied(var_x, var_y, val_x, val_y):
+                        return False
+
+        # Otherwise all assignments are consistent
+        return True
+
 
     def order_domain_values(self, var, assignment):
         """
@@ -307,8 +331,34 @@ class CrosswordCreator():
 
         If no assignment is possible, return None.
         """
+        if self.assignment_complete(assignment):
+            return assignment
         
+        var = select_unassigned_variable(assignment)
+        for value in order_domain_values(var, assignment):
+            temp = assignment
+            temp[var] = value
+            if self.consistent(temp):
+                assignment[var] = value
+                result = self.backtrack(assignment)
+                if result:
+                    return result
+            del assignment[var]
+        return None
+                
+
+
         raise NotImplementedError
+    
+
+
+    def assignment_complete(self, assignment):
+        for var self.domains:
+            if var not in assignment:
+                return False
+
+        return True
+
 
 
 def main():
