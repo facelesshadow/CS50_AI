@@ -283,8 +283,8 @@ class CrosswordCreator():
         
         # now sort
         sorted_dict = dict(sorted(h_dict.items(), key=lambda item: item[1], reverse))
-
-        return sorted_dict.keys()
+        sorted_list = sorted_dict.keys()
+        return sorted_list
         
 
     def select_unassigned_variable(self, assignment):
