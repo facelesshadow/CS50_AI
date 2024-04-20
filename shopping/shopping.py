@@ -7,17 +7,17 @@ from sklearn.neighbors import KNeighborsClassifier
 TEST_SIZE = 0.4
 
 months = {
-    "Jan": 0
-    "Feb": 1
-    "Mar": 2
-    "Apr":3
-    "May":4
-    "June":5
-    "Jul":6
-    "Aug":7
-    "Sep":8
-    "Oct":9
-    "Nov":10
+    "Jan": 0,
+    "Feb": 1,
+    "Mar": 2,
+    "Apr":3,
+    "May":4,
+    "June":5,
+    "Jul":6,
+    "Aug":7,
+    "Sep":8,
+    "Oct":9,
+    "Nov":10,
     "Dec":11
 }
 
@@ -74,26 +74,47 @@ def load_data(filename):
     is 1 if Revenue is true, and 0 otherwise.
     """
 
-    data = ()
-    data[0] = []
-    data[1] = []
+    evidence = []
+    label = []
 
     with open("shopping.csv") as file:
         reader = csv.reader(file)
+        header = next(reader)
+
         for row in reader:
+            
+            row[0] = int(row[0])
+            row[1] = float(row[1])
+            row[2] = int(row[2])
+            row[3] = float(row[3])
+            row[4] = int(row[4])
+            row[5] = 
+            row[6] = 
+            row[7] = 
+            row[8] = 
+            row[9] = 
+            row[11] = 
+            row[12] = 
+
+
+            
+            
             month_name = row[10]
-            row[10] = month[month_name]
-            data[0].append(row)
-            purchase = (0 if row[len(row)-1] == FALSE else 1)
-            data[1].append(purchase)
+            row[10] = months[month_name]
+            
+            
+
+            row[15] = (1 if row[15] == "Returning_Visitor" else 0)
+            
+            weekend = (1 if row[16] == "TRUE" else 0)
+            row[16] = weekend
+
+            purchase = (0 if row[len(row)-1] == "FALSE" else 1)
+            evidence.append(row)
+            label.append(purchase)
 
         
-    return data
-
-    
-
-
-    raise NotImplementedError
+    return (evidence, label)
 
 
 def train_model(evidence, labels):
