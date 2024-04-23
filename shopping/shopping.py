@@ -83,18 +83,14 @@ def load_data(filename):
 
         for row in reader:
             
-            row[0] = int(row[0])
-            row[1] = float(row[1])
-            row[2] = int(row[2])
-            row[3] = float(row[3])
-            row[4] = int(row[4])
-            row[5] = 
-            row[6] = 
-            row[7] = 
-            row[8] = 
-            row[9] = 
-            row[11] = 
-            row[12] = 
+            integers = []
+            floats = []
+
+            for i in integers:
+                row[i] = int(row[i])
+            
+            for j in floats:
+                row[j] = int(row[j])
 
 
             
@@ -122,6 +118,7 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
+    
     raise NotImplementedError
 
 
