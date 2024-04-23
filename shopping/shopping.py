@@ -118,7 +118,15 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    
+    data = evidenec
+    holdout = int(0.50* len(data))
+    random.shuffle(data)
+    testing = data[:holdout]
+    training = data[holdout:]
+
+    X_training = [row[]] 
+
+
     raise NotImplementedError
 
 
