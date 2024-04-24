@@ -1,4 +1,4 @@
-from shopping import *
+from shopping import load_data
 
 result = load_data("shopping.csv")
 

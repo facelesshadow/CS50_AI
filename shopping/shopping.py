@@ -76,28 +76,16 @@ def load_data(filename):
 
     evidence = []
     label = []
+    integers = [0, 2, 4, 10, 11, 12, 13, 14, 15, 16]
+    floats = [1, 3, 5, 6, 7, 8, 9]
 
     with open("shopping.csv") as file:
         reader = csv.reader(file)
         header = next(reader)
 
         for row in reader:
-            
-            integers = []
-            floats = []
-
-            for i in integers:
-                row[i] = int(row[i])
-            
-            for j in floats:
-                row[j] = int(row[j])
-
-
-            
-            
             month_name = row[10]
             row[10] = months[month_name]
-            
             
 
             row[15] = (1 if row[15] == "Returning_Visitor" else 0)
@@ -106,10 +94,19 @@ def load_data(filename):
             row[16] = weekend
 
             purchase = (0 if row[len(row)-1] == "FALSE" else 1)
-            evidence.append(row)
-            label.append(purchase)
 
-        
+
+            for i in integers:
+                row[i] = int(row[i])
+
+            for j in floats:
+                row[j] = float(row[j])
+            
+            row.remove(row[17])
+
+            evidence.append(row)
+            label.append(purchase) 
+
     return (evidence, label)
 
 
@@ -118,7 +115,7 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    model = Kneighbourclassifier(n_neighbours = 1)
+    model = KNeighborsClassifier(n_neighbors=1)
     
     """
     holdout = int(0.50* len(evidence))
@@ -154,11 +151,11 @@ def evaluate(labels, predictions):
     total = 0
     for actual, predicted in zip(labels, predictions):
         total += 1
-        if actual = 1:
+        if actual == 1:
             total_true += 1
             if actual == predicted:
                 correct_true += 1
-        elif actual = 0:
+        elif actual == 0:
             total_false += 1
             if predicted == 0:
                 correct_false += 1
@@ -166,7 +163,7 @@ def evaluate(labels, predictions):
     sensitivity = float(correct_true/total_true)
     specificity = float(correct_false/total_false)
     
-
+    return (sensitivity, specificity)
 
 if __name__ == "__main__":
     main()
