@@ -118,17 +118,18 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    data = evidenec
-    holdout = int(0.50* len(data))
-    random.shuffle(data)
-    testing = data[:holdout]
-    training = data[holdout:]
+    model = Kneighbourclassifier(n_neighbours = 1)
+    
+    """
+    holdout = int(0.50* len(evidence))
+    testing_evidence = evidence[:holdout]
+    testing_labels = labels[:holdout]
+    training_evidence = evidence[holdout:]
+    training_labels = labels[holdout:]
+    """
 
-    X_training = [row[]] 
-
-
-    raise NotImplementedError
-
+    model.fit(evidence, labels)
+    return model
 
 def evaluate(labels, predictions):
     """
@@ -145,7 +146,26 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
+
+    correct_true = 0
+    total_true = 0
+    correct_false = 0
+    total_false = 0
+    total = 0
+    for actual, predicted in zip(labels, predictions):
+        total += 1
+        if actual = 1:
+            total_true += 1
+            if actual == predicted:
+                correct_true += 1
+        elif actual = 0:
+            total_false += 1
+            if predicted == 0:
+                correct_false += 1
+
+    sensitivity = float(correct_true/total_true)
+    specificity = float(correct_false/total_false)
+    
 
 
 if __name__ == "__main__":
