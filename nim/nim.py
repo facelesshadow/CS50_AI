@@ -102,10 +102,10 @@ class NimAI():
         If no Q-value exists yet in `self.q`, return 0.
         """
 
-        if not self.q[state, action]:
+        if not self.q[tuple(state), action]:
             return 0
         else:
-            return self.q[state, action]
+            return self.q[tuple(state), action]
 
     def update_q_value(self, state, action, old_q, reward, future_rewards):
         """
@@ -134,10 +134,16 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
+        values_list = []
+        for key, value in self.q.items():
+            if key[0] == state:
+                values_list.append(value)
+        print(f"value list is {values_list}")
+        if not values_list:
+            return 0
+        else:
+            return max(values_list)
         
-        
-
-        raise NotImplementedError
 
     def choose_action(self, state, epsilon=True):
         """
@@ -153,9 +159,59 @@ class NimAI():
 
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
-        """
-        raise NotImplementedError
+        
+        best_reward = self.best_future_reward(state)
+        if epsilon == False:
+            # return the action with highest Q value
+            for key, value in self.q.items():
+                if key[0] == state and value == best_reward:
+                    return key[1]
+        else:
+            probabilities = [self.epsilon, 1-self.epsilon]
+            outcomes = [True, False]
+            decision = random.choices(outcomes, weights=probabilities, k=1)[0]
 
+            if decision:
+                random_action = []
+                for key, value in self.q.items():
+                    if key[0] == state:
+                        random_action.append(key[1])
+                return random.choice(random_action)
+            elif not decision:
+                random_action = []
+                highest_reward = self.best_future_reward(state)
+                for key, value in self.q.items():
+                    if key[0] == state and value == highest_reward:
+                        random_action.append(key[1])
+                print(f"{random_action} is list")
+                print(f"highest reward is {highest_reward}")
+                return random.choice(random_action)
+        """
+        max_reward = 0
+        best_action = None
+
+        available_moves = Nim.available_actions(state)
+
+        for move in available_moves:
+            try:
+                q = self.q[tuple(state), move]
+            except KeyError:
+                q = 0
+
+            if q > max_reward:
+                max_reward = q
+                best_action = move
+
+        if max_reward == 0:
+            return random.choice(tuple(available_moves))
+
+        if not epsilon:
+            return best_action
+        else:
+            if random.random() < self.epsilon:
+                return random.choice(tuple(available_moves))
+            else:
+                return best_action
 
 def train(n):
     """
