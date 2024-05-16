@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 EPOCHS = 10
 IMG_WIDTH = 30
-IMG_HEIGHT = 30
+IMG_HEIGHT = 30 
 NUM_CATEGORIES = 43
 TEST_SIZE = 0.4
 
@@ -59,8 +59,25 @@ def load_data(data_dir):
     corresponding `images`.
     """
     path = data_dir
+    # will look into making it os dependent later
+    
     ppm_list = os.listdir(path)
     
+    image_list = []
+    for file1 in ppm_list:
+        category = 0
+        for filename in file1:
+            if filename.endswith(".ppm"):
+                image_path = os.path.join(directory, file1, filename)
+                image = cv2.imread(image_path)
+                image = cv2.resize(image, width=IMG_WIDTH, height=IMG_HEIGHT)
+                image_list.append((image, category))
+
+        category += 1
+
+
+    return image_list
+
     raise NotImplementedError
 
 
