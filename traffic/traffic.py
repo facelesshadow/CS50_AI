@@ -63,27 +63,20 @@ def load_data(data_dir):
     
     category_list = os.listdir(path)
     category_list.remove(".DS_Store")
-    print(category_list)
     image_list = []
+    category = 0
     for file1 in category_list:
-        category = 0 
-        print("flag")
         ppm_list = os.listdir(os.path.join(path, file1))
-        print(ppm_list)
-        for filename in file1:
-            if filename.endswith(".ppm"):
-                image_path = os.path.join(data_dir, file1, filename)
-                image = cv2.imread(image_path)
-                image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
-                image_list.append((image, category))
-                print("appended")
-
+        for filename in ppm_list:
+            image_path = os.path.join(data_dir, file1, filename)
+            image = cv2.imread(image_path)
+            image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
+            image_list.append((image, category))
         category += 1
 
 
     return image_list
-
-    raise NotImplementedError
+    
 
 
 def get_model():
