@@ -85,6 +85,29 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
+    # Create neural network
+    model = tf.keras.Sequential()
+
+    #Add a hidden layer with 8 units with Re:u activator
+    mdoel.add(tf.keras.layers.Dense(8, input_shape=(4,), activation="relu"))
+
+    # Add output layer with 1 unit, with sigmoid activation
+    model.add(tf.keras.layers.Dense(1, activation="sigmoid"))
+
+    #Train neural network
+    model.compile(
+        optimizer="adam"
+        loss="binary_crossentropy"
+        metrics=["accuracy"]
+    )
+    model.fit(X_training, y_training, epochs=EPOCHS)
+
+    #Evaluat how well model performs
+    model.evaluate(X_testing, y_testing, verbose=2)
+
+    
+
+
     raise NotImplementedError
 
 
