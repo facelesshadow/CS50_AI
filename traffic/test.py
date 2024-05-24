@@ -2,4 +2,4 @@ from traffic import *
 
 directory = "gtsrb-small"
 answer = load_data(directory)
-print(answer[99][1])  
+print(answer[0][1])  

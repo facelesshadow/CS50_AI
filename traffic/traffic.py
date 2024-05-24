@@ -64,18 +64,24 @@ def load_data(data_dir):
     category_list = os.listdir(path)
     category_list.remove(".DS_Store")
     image_list = []
+    category_count = []
     category = 0
+    
+    
     for file1 in category_list:
         ppm_list = os.listdir(os.path.join(path, file1))
         for filename in ppm_list:
             image_path = os.path.join(data_dir, file1, filename)
             image = cv2.imread(image_path)
             image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
-            image_list.append((image, category))
+            image_list.append(image)
+            category_count.append(category)
+            
         category += 1
 
+    print(f"len of image_list is {len(image_list)}")
 
-    return image_list
+    return (image_list, category_count)
     
 
 
@@ -85,28 +91,26 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
+
     # Create neural network
     model = tf.keras.Sequential()
 
     #Add a hidden layer with 8 units with Re:u activator
-    mdoel.add(tf.keras.layers.Dense(8, input_shape=(4,), activation="relu"))
+    model.add(tf.keras.layers.Dense(8, input_shape=(4,), activation="relu"))
 
     # Add output layer with 1 unit, with sigmoid activation
     model.add(tf.keras.layers.Dense(1, activation="sigmoid"))
 
     #Train neural network
     model.compile(
-        optimizer="adam"
-        loss="binary_crossentropy"
+        optimizer="adam",
+        loss="binary_crossentropy",
         metrics=["accuracy"]
     )
-    model.fit(X_training, y_training, epochs=EPOCHS)
 
-    #Evaluat how well model performs
-    model.evaluate(X_testing, y_testing, verbose=2)
+     
 
-    
-
+    return model
 
     raise NotImplementedError
 
