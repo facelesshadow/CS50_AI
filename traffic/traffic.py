@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30 
-NUM_CATEGORIES = 43
+NUM_CATEGORIES = 3
 TEST_SIZE = 0.4
 
 
@@ -96,15 +96,15 @@ def get_model():
     model = tf.keras.Sequential()
 
     #Add a hidden layer with 8 units with Re:u activator
-    model.add(tf.keras.layers.Dense(8, input_shape=(4,), activation="relu"))
+    model.add(tf.keras.layers.Dense(8, input_shape=(IMG_WIDTH, IMG_HEIGHT, 3, ), activation="relu"))
 
     # Add output layer with 1 unit, with sigmoid activation
-    model.add(tf.keras.layers.Dense(1, activation="sigmoid"))
+    model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax"))
 
     #Train neural network
     model.compile(
         optimizer="adam",
-        loss="binary_crossentropy",
+        loss="categorical_crossentropy",
         metrics=["accuracy"]
     )
 
