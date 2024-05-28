@@ -93,7 +93,9 @@ def get_model():
     """
 
     # Create neural network
-    model = tf.keras.Sequential()
+    model = tf.keras.Sequential([
+        
+    ])
 
     #Add a hidden layer with 8 units with Re:u activator
     model.add(tf.keras.layers.Dense(8, input_shape=(IMG_WIDTH, IMG_HEIGHT, 3, ), activation="relu"))
