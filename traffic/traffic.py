@@ -94,9 +94,21 @@ def get_model():
 
     # Create neural network
     model = tf.keras.Sequential([
+        tf.keras.layers.Conv2D(
+            32, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+        ),
+
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+
+        tf.keras.layers.Flatten(),
+
+        tf.keras.layers.Dense(64, activation="relu"),
+        tf.keras.layers.Dropout(0.3),
+
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
         
     ])
-
+    """
     #Add a hidden layer with 8 units with Re:u activator
     model.add(tf.keras.layers.Dense(8, input_shape=(IMG_WIDTH, IMG_HEIGHT, 3, ), activation="relu"))
 
@@ -104,17 +116,17 @@ def get_model():
     model.add(tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax"))
 
     #Train neural network
+    
+    )
+    """
     model.compile(
         optimizer="adam",
         loss="categorical_crossentropy",
         metrics=["accuracy"]
     )
+    return model 
 
-     
-
-    return model
-
-    raise NotImplementedError
+    
 
 
 if __name__ == "__main__":
