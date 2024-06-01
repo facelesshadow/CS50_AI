@@ -8,8 +8,8 @@ from sklearn.model_selection import train_test_split
 
 EPOCHS = 10
 IMG_WIDTH = 30
-IMG_HEIGHT = 30 
-NUM_CATEGORIES = 3
+IMG_HEIGHT = 30
+NUM_CATEGORIES = 43
 TEST_SIZE = 0.4
 
 
@@ -62,7 +62,10 @@ def load_data(data_dir):
     # will look into making it os dependent late
     
     category_list = os.listdir(path)
-    category_list.remove(".DS_Store")
+    try:
+        category_list.remove(".DS_Store")
+    except:
+        ...
     image_list = []
     category_count = []
     category = 0
@@ -98,15 +101,15 @@ def get_model():
             32, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
         ),
 
-        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
 
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(64, activation="relu"),
-        tf.keras.layers.Dropout(0.3),
-
-        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dense(128, activation="relu"),
         
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+
     ])
     """
     #Add a hidden layer with 8 units with Re:u activator
@@ -125,8 +128,6 @@ def get_model():
         metrics=["accuracy"]
     )
     return model 
-
-    
 
 
 if __name__ == "__main__":
