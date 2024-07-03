@@ -1,3 +1,4 @@
+import re
 import nltk
 import sys
 
@@ -15,7 +16,10 @@ V -> "smiled" | "tell" | "were"
 """
 
 NONTERMINALS = """
-S -> N V
+S -> NP VP | NP VP Conj NP VP | NP VP Conj VP
+NP -> N | Det N | Det AP N | P NP | NP P NP
+VP -> V | Adv VP | V Adv | VP NP | V NP Adv
+AP -> Adj | AP Adj
 """
 
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
@@ -62,20 +66,14 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    sentence_list = nltk.word_tokenize(sentence)
-    duplicate_list = sentence_list.copy()
+    test = re.compile('[a-zA-Z]')
 
-    for word in duplicate_list:
+    # Tokenize using nltk:
+    tokens = nltk.word_tokenize(sentence)
 
-        word = word.lower()
-        flag = False
-
-        for ch in word:
-            if ch.isalpha():
-                flag = True
-
-        if(flag == False):
-            sentence_list.remove(word)    
+    # Return list of lowercase strings that match Regex:
+    return [entry.lower() for entry in tokens if test.match(entry)]
+  
 
     return sentence_list
 
@@ -88,6 +86,20 @@ def np_chunk(tree):
     noun phrases as subtrees.
     """
     
+    chunks = []
+
+    # Convert Tree to Parented Tree
+    ptree = nltk.tree.ParentedTree.convert(tree)
+
+    # Iterate through all subtrees in the tree:
+    for subtree in ptree.subtrees():
+        # If subtree is labelled as a noun then parent is a noun phrase chunk
+        if subtree.label() == "N":
+            chunks.append(subtree.parent())
+
+    return chunks
+
+
     raise NotImplementedError
 
 

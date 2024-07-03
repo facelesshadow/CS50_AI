@@ -1,6 +1,9 @@
-from parser import preprocess
+import 
+from parser import np_chunk
 
-sentence = "Holmes lit a 23 ././ pipe."
+sentence = "Holmes lit a 23 pipe."
 
-result = preprocess(sentence)
+parser = nltk.ChartParser(grammar)
+
+result = np_chunk(sentenc)
 print(result)
