@@ -101,11 +101,7 @@ class NimAI():
         Return the Q-value for the state `state` and the action `action`.
         If no Q-value exists yet in `self.q`, return 0.
         """
-
-        if not self.q[tuple(state), action]:
-            return 0
-        else:
-            return self.q[tuple(state), action]
+        return self.q[(tuple(state), action)] if (tuple(state), action) in self.q else 0
 
     def update_q_value(self, state, action, old_q, reward, future_rewards):
         """
@@ -122,7 +118,7 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        self.q[state, action] = new_q_value = old_q + self.alpha*((reward + future_rewards) + old_q)
+        self.q[tuple(state), action] = old_q + self.alpha * (reward + future_rewards - old_q)
 
     def best_future_reward(self, state):
         """
@@ -134,16 +130,12 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        values_list = []
-        for key, value in self.q.items():
-            if key[0] == state:
-                values_list.append(value)
-        print(f"value list is {values_list}")
-        if not values_list:
-            return 0
-        else:
-            return max(values_list)
-        
+        best_reward = 0
+
+        for action in Nim.available_actions(list(state)):
+            best_reward = max(self.get_q_value(state, action), best_reward)
+
+        return best_reward
 
     def choose_action(self, state, epsilon=True):
         """
@@ -159,59 +151,21 @@ class NimAI():
 
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
-        
-        best_reward = self.best_future_reward(state)
-        if epsilon == False:
-            # return the action with highest Q value
-            for key, value in self.q.items():
-                if key[0] == state and value == best_reward:
-                    return key[1]
-        else:
-            probabilities = [self.epsilon, 1-self.epsilon]
-            outcomes = [True, False]
-            decision = random.choices(outcomes, weights=probabilities, k=1)[0]
-
-            if decision:
-                random_action = []
-                for key, value in self.q.items():
-                    if key[0] == state:
-                        random_action.append(key[1])
-                return random.choice(random_action)
-            elif not decision:
-                random_action = []
-                highest_reward = self.best_future_reward(state)
-                for key, value in self.q.items():
-                    if key[0] == state and value == highest_reward:
-                        random_action.append(key[1])
-                print(f"{random_action} is list")
-                print(f"highest reward is {highest_reward}")
-                return random.choice(random_action)
         """
-        max_reward = 0
-        best_action = None
+        available_actions = Nim.available_actions(state)
 
-        available_moves = Nim.available_actions(state)
+        if epsilon and random.random() <= self.epsilon:
+            return random.sample(available_actions, 1)[0]
 
-        for move in available_moves:
-            try:
-                q = self.q[tuple(state), move]
-            except KeyError:
-                q = 0
+        best_reward = -math.inf
 
-            if q > max_reward:
-                max_reward = q
-                best_action = move
+        for available_action in available_actions:
+            if self.get_q_value(state, available_action) > best_reward:
+                best_reward = self.get_q_value(state, available_action)
+                best_action = available_action
 
-        if max_reward == 0:
-            return random.choice(tuple(available_moves))
+        return best_action
 
-        if not epsilon:
-            return best_action
-        else:
-            if random.random() < self.epsilon:
-                return random.choice(tuple(available_moves))
-            else:
-                return best_action
 
 def train(n):
     """
